@@ -1,0 +1,76 @@
+<!-- 感覺專題的介紹網站可以用這個寫 -->
+<!-- 這個的排版照片在平板，手機無情更新中 -->
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/guide_page.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/nav.css')}}">
+</head>
+
+<body>
+    <header>
+        <div class="h-box">
+            <img src="/static/img/AI_LOGO.png"height="100px" />
+    
+            <nav>
+                <ul>
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="#">SEARCH RELATED</a><!-- 巢狀第二層 -->
+                        <ul>
+                            <li><a href="#">SEARCH PAGE</a></li>
+                            <li><a href="#">LATEST SEARCH</a></li>
+                            <li><a href="#">CART</a></li>
+                        </ul>                    
+                    </li><!-- 巢狀第二層結束 -->
+                    <li><a href="#">LOGOUT</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- banner 主要看 css 裡面 -->
+    <div class="banner">
+        <div class="anitext">Searching Website<br>Guide Page</div>
+    </div>
+
+
+    <section>
+        <article>
+            <div class="picbox">
+                <video controls>
+                    <source src="/static/img/1107_demo.mp4" type="video/mp4" />
+                    <p>Can't not play the video, please change to another browser</p>
+                </video>
+            </div>
+            <div class="desbox">
+                <h2>Usage Demo Video</h2>
+                <p>
+                    Demo video of this searching website, you can go through it to understand how to search the videos you want. 
+                </p>
+            </div>
+        </article>
+
+        <article>
+            <!-- 這邊因為希望第二則圖片出現在文字的右邊所以這樣寫，但之後學到 RWD 就不用改 html ，可以直接再 css 裡面設定他雙數的文章裡面的圖片跟文字的順序 -->
+            <div class="desbox">
+                <h2>Driver-centric <br>risk assessment</h2>
+                <p>Outline of our target, 4 parts are included and you can see detail below.</p>
+            </div>
+            <div class="picbox">
+                <img src="/static/img/DRIVER-CENTRIC RISK ASSESSMENT.png" alt="outline" />
+            </div>
+        </article>
+        
+    </section>
+
+    <!--footer-->
+    <footer>
+        Copyright &copy; 2022 HCIS Lab All Rights Reserved
+    </footer>
+
+</body>
+
+</html>
