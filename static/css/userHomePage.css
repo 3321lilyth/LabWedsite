@@ -1,0 +1,271 @@
+/*會按照 html 裡面的順序在這邊寫 nav 鮮血再寫 article*/
+html, body {
+    height: 100%;
+    margin: 0;
+}
+body {
+    /*for footer 置底置中*/
+    display: flex; /*使物件依序排列*/
+    flex-direction: column; /*使物件垂直排列*/
+    margin: 0; /*0後面沒有單位，歸0的設定，把預設的空白拿掉*/
+    padding: 0;/*0後面沒有單位，歸0的設定，把預設的空白拿掉*/
+    font-family:Verdana, Geneva, Tahoma, sans-serif; /*0926這種日期變成粗體，我中文看起來是沒差拉 == */
+    /* background: #add9e6; */
+    /* background: rgba(255, 190, 10, .1); */
+
+    /*for 滿版背景圖*/
+    background-image: url(../img/background/desert-g7a25a2106_1920.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+
+}
+
+header, nav, section, article{
+    text-align: center; /*全部致中*/
+}
+
+header{
+    font-size: 1.5rem; 
+    width: 300px; 
+    margin: 10px auto; 
+}
+
+
+
+/*
+for 好看的導覽頁
+*/
+nav a {
+    color: inherit; /* 移除超連結顏色 */
+    display: block; /* 讓 <a> 填滿 <li> */
+    font-size: 1.2rem;
+    padding: 10px 30px;
+    text-decoration: none;  /* 移除超連結底線 */
+}
+/* 滑鼠移到 <a> 時變成深底淺色 */
+.usernav a:hover {
+    background-color: #099;
+    color: white;
+}
+.flex-nav {
+    display: flex; /*for 並排*/
+    justify-content: center;
+    background-color:rgba(0, 0, 0, 0.784);
+    color: #ddd;
+    list-style: none;   /* 移除項目符號 */
+    margin: 0;
+    padding: 0;
+}
+
+/*搜尋葉面相關*/
+.flex-container{ 
+    /*編號 1 代表是最外層，這邊只控制 輸入 tags/ current tags/ history 三部分水平擺放*/
+    display: flex;
+    flex-direction: row;
+    justify-content:center;/*主軸對齊方式：居中*/
+    align-items: stretch;
+}
+.nav-link{
+    color: #000;
+    border-radius: 5px;
+    
+}
+.nav-link .active{
+    color: #ddd;
+    background-color: #333;
+}
+/*section*/
+section{
+    width: 80%; /*百分比代表依照螢幕大小做調整，但如果只寫這樣會往左邊縮，砍掉右邊的20% (你給蹦景顏色就可以看出來)*/
+    margin: auto; /*所以會需要家這個 來置中*/
+}
+
+
+/*article- 一個一個影片的區塊，如果最後框架的做法不能用來漂亮的呈現就改回原本的ㄅ*/
+/* article{
+    display: inline-block;
+    width: 250px;
+    height: 250px;
+    margin: 20px;
+}    
+article video{
+    width: 250px;
+    height: 150px;
+    margin: 0;
+    padding: 0;
+}
+article input{
+    height: 100px;
+    margin: 0;
+    padding: 0;
+    width: 15px;
+    float: left;
+}
+article p{
+    height: 100px;
+    width: 230px;
+    margin: 0;
+    padding: 0;
+    float: right;
+    color: #000;
+    
+}
+
+article p:hover{
+    background: #099;
+    color: #fff; 
+}    
+article p:active{
+    background: #FC0;
+    color: #000;
+} */
+.card{
+    max-width: 270px; 
+    max-height: 600px; 
+    display: inline-block; 
+    margin: 20px 30px;
+}
+/*卡，這邊要再看看怎麼加上點下去之後邊框變色，再點一下變回來的功能，滑鼠移過倒不是重點*/
+/*搜尋葉面*/
+#search_btn {
+    display: inline-block;			/* 将<a>标签设为块元素，用于美化样式 */
+    width: 200px;
+    height: 60px;
+    font-size: 17px;
+    /*line-height: 60px; /*文字垂直置中*/
+    text-align: center;         /*文字水平置中*/
+    position: fixed;	        /* 设置fixed固定定位 */
+    bottom: 90px;		/* 距离浏览器窗口下边框20px */
+    right: 20px;		/* 距离浏览器窗口右边框20px */
+    color: #333;			/* 设置文本颜色 */
+    background-color: #f2f2f2;		/* 设置背景颜色 */
+    border: 1px solid #ccc;		/* 设置边框样式 */
+    border-radius: 5px;			/* 设置圆角矩形 */
+    letter-spacing: 2px;		/* 设置文字间距 */
+}
+
+
+/*搜尋結果葉面右下角懸浮按鈕*/
+.choose_all_video{
+    position: fixed;
+    bottom: 160px;
+    right: 20px;
+}
+.choose_all_video button{
+    width: 200px;
+    height: 60px;
+    
+    display: block;
+    background-color: #f2f2f2;		/* 设置背景颜色 */
+    border: 1px solid #ccc;		/* 设置边框样式 */
+    border-radius: 5px;			/* 设置圆角矩形 */
+    letter-spacing: 2px;		/* 设置文字间距 */
+}
+.choose_chosen_video{
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+}
+
+.choose_chosen_video button{
+    width: 200px;
+    height: 60px;
+
+    display: block;
+    background-color: #f2f2f2;		/* 设置背景颜色 */
+    border: 1px solid #ccc;		/* 设置边框样式 */
+    border-radius: 5px;			/* 设置圆角矩形 */
+    letter-spacing: 2px;		/* 设置文字间距 */
+}
+
+.go-top {
+    text-align: center;         /*文字水平置中*/
+    position: fixed;	        /* 设置fixed固定定位 */
+    bottom: 20px;		/* 距离浏览器窗口下边框20px */
+    right: 20px;		/* 距离浏览器窗口右边框20px */
+}
+.go-top a {
+    width: 200px;
+    height: 60px;
+    line-height: 60px; /*文字垂直置中*/
+
+    display: block;			/* 将<a>标签设为块元素，用于美化样式 */
+    text-decoration: none;		/* 取消超链接下画线 */
+    color: #333;			/* 设置文本颜色 */
+    background-color: #f2f2f2;		/* 设置背景颜色 */
+    border: 1px solid #ccc;		/* 设置边框样式 */
+    border-radius: 5px;			/* 设置圆角矩形 */
+    letter-spacing: 2px;		/* 设置文字间距 */
+}
+
+
+/*cart 葉面右下角按鈕*/
+.clear_chosen_videos {
+    position: fixed;	        /* 设置fixed固定定位 */
+    bottom: 230px;		/* 距离浏览器窗口下边框20px */
+    right: 20px;		/* 距离浏览器窗口右边框20px */
+    
+}
+.clear_chosen_videos button {
+    width: 200px;
+    height: 60px;
+
+    display: block;			/* 将<a>标签设为块元素，用于美化样式 */
+    color: #333;			/* 设置文本颜色 */
+    background-color: #f2f2f2;		/* 设置背景颜色 */
+    border: 1px solid #ccc;		/* 设置边框样式 */
+    border-radius: 5px;			/* 设置圆角矩形 */
+    letter-spacing: 2px;		/* 设置文字间距 */
+}
+
+.clear_all_videos {
+    text-align: center;         /*文字水平置中*/
+    position: fixed;	        /* 设置fixed固定定位 */
+    bottom: 160px;		/* 距离浏览器窗口下边框20px */
+    right: 20px;		/* 距离浏览器窗口右边框20px */
+    
+}
+.clear_all_videos button {
+    width: 200px;
+    height: 60px;
+
+    display: block;			/* 将<a>标签设为块元素，用于美化样式 */
+    color: #333;			/* 设置文本颜色 */
+    background-color: #f2f2f2;		/* 设置背景颜色 */
+    border: 1px solid #ccc;		/* 设置边框样式 */
+    border-radius: 5px;			/* 设置圆角矩形 */
+    letter-spacing: 2px;		/* 设置文字间距 */
+}
+
+.export {
+    text-align: center;         /*文字水平置中*/
+    position: fixed;	        /* 设置fixed固定定位 */
+    bottom: 90px;		/* 距离浏览器窗口下边框20px */
+    right: 20px;		/* 距离浏览器窗口右边框20px */
+    
+}
+.export button {
+    width: 200px;
+    height: 60px;
+    line-height: 60px; /*文字垂直置中*/
+
+    display: block;			/* 将<a>标签设为块元素，用于美化样式 */
+    color: #333;			/* 设置文本颜色 */
+    background-color: #f2f2f2;		/* 设置背景颜色 */
+    border: 1px solid #ccc;		/* 设置边框样式 */
+    border-radius: 5px;			/* 设置圆角矩形 */
+    letter-spacing: 2px;		/* 设置文字间距 */
+}
+
+/*for footer 置底置中*/
+.wrapper {
+    flex-grow: 1; /*可佔滿垂直剩餘的空間*/
+}
+footer {
+    width: 450px;  /*for 置中*/
+    height: 60px;
+    text-align: center; /*文字置中*/
+    margin: 10px auto;
+}
