@@ -1,0 +1,302 @@
+<!-- 使用者個人首頁畫面 -->
+<!-- 卡，可以加個用戶頭像，然後用 src="/static/img/{{account}}" 引入-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 這段 mata 的意思是把網站呈現的寬度設定成和裝置的寬度一樣（如果裝置的寬度是320px，則網站的寬度也設成320px），而不是把960px的網頁內容所小成320px來呈現；initial-scale=1的意思，就是不要縮放網頁的意思。 -->
+        <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="/static/js/search.js"></script>
+        <title>{{account}}'s Home Page</title>
+
+    </head>
+    <body>
+
+        <div class="wrapper">   <!-- 所有 body 內容都放在這邊除了 footer 以外，是為了 footer 置中加的 class-->
+            
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <img src="/static/img/AI_LOGO.png" style="width: 70px; height: 70px;"></img>
+                    <p class="navbar-brand" style="margin: 10px auto; padding-left: 30px; padding-right: 30px;">{{account}}'s Home Page</p>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <!-- 卡，這邊這個 700px 看到時候能不能改成 % 數 -->
+                    <div style="width: 680px;"></div>
+                    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item" style="padding-left: 20px; padding-right: 20px;"><a class="nav-link" aria-current="page" href="#">Searching Web Home Page</a></li>
+                            <li class="nav-item" style="padding-left: 20px; padding-right: 20px;"><a class="nav-link" href="https://sites.google.com/site/yitingchen0524/hcis-lab?authuser=0">Lab Website</a></li>
+                        </ul>
+                        <!-- <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form> -->
+                    </div>
+                </div>
+            </nav>
+            <!-- -------------------------------------------------------導覽列清單------------------------------------------------------------- -->
+            <nav class="usernav">
+                <ul class="flex-nav">
+                    <li><a href="{{ url_for('showUserPage',account = account,nav='searchPage') }}" >SearchPage</a></li>
+                    <li><a href="{{ url_for('showUserPage',account = account,nav='search_result', latest_search_results=latest_search_results) }}">Latest Search Result</a></li>
+                    <li><a href="{{ url_for('showUserPage',account = account,nav='cart') }}">Cart</a></li>
+                    <li><a href="{{ url_for('showUserPage',account = account,nav='setting') }} ">Setting</a></li>
+                    <li><a href= "#">Logout</a></li>
+                </ul>
+            </nav>
+            <br>
+            
+            <div class="go-top">
+                <a href="#">GO TOP</a>
+            </div>
+            
+            
+            <!----------------------------------------------------- searchPage-------------------------------------------------------------------------------    -->
+            {% if nav == 'searchPage' %}
+            <div class="flex-container1">                
+                <div class="d-flex align-items-start" style=" height: 400px; flex:8; position: relative; border: 3px solid red;"> <!-- width 剩下的 20% 給 chosen tags 30% 給 history-->
+                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <button class="nav-link disabled" role="tab">Scenario</button>
+                        <button class="nav-link active" id="v-pills-4way-intersection-tab" data-bs-toggle="pill" data-bs-target="#v-pills-4way-intersection" type="button" role="tab" aria-controls="v-pills-4way-intersection" aria-selected="true">4way-intersection</button>
+                        <button class="nav-link" id="v-pills-3way-intersection-1-tab" data-bs-toggle="pill" data-bs-target="#v-pills-3way-intersection-1" type="button" role="tab" aria-controls="v-pills-3way-intersection-1" aria-selected="false">3way-intersection-1</button>
+                        <button class="nav-link" id="v-pills-3way-intersection-2-tab" data-bs-toggle="pill" data-bs-target="#v-pills-3way-intersection-2" type="button" role="tab" aria-controls="v-pills-3way-intersection-2" aria-selected="false">3way-intersection-2</button>
+                        <button class="nav-link" id="v-pills-3way-intersection-3-tab" data-bs-toggle="pill" data-bs-target="#v-pills-3way-intersection-3" type="button" role="tab" aria-controls="v-pills-3way-intersection-3" aria-selected="false">3way-intersection-3</button>
+                        <button class="nav-link" id="v-pills-3way-straight-tab" data-bs-toggle="pill" data-bs-target="#v-pills-3way-straight" type="button" role="tab" aria-controls="v-pills-3way-straight" aria-selected="false">3way-straight</button>
+                        <button class="nav-link" id="v-pills-4way-straight-tab" data-bs-toggle="pill" data-bs-target="#v-pills-4way-straight" type="button" role="tab" aria-controls="v-pills-4way-straight" aria-selected="false">4way-straight</button>
+                        <button class="nav-link" id="v-pills-5way-straight-tab" data-bs-toggle="pill" data-bs-target="#v-pills-5way-straight" type="button" role="tab" aria-controls="v-pills-5way-straight" aria-selected="false">5way-straight</button>
+                        <button class="nav-link" id="v-pills-Roundabout-tab" data-bs-toggle="pill" data-bs-target="#v-pills-Roundabout" type="button" role="tab" aria-controls="v-pills-Roundabout" aria-selected="false">Roundabout</button>
+                    </div>
+
+                    <!-- 這邊是原本的輸入框的 -->
+                    <!-- <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-4way-intersection" role="tabpanel" aria-labelledby="v-pills-4way-intersection-tab">
+                            <img src="/static/img/4-way.png" alt="not found" style="width: 230px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                            <input type="text" class="form-control " placeholder="Input tag(e.g.  e:2,6)" id="4way_intersection_tag" name="add_tag" style="width: 230px; margin: auto; position: absolute; bottom: 0%; left: 50%;">
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-3way-intersection-1" role="tabpanel" aria-labelledby="v-pills-3way-intersection-1-tab">
+                            <img src="/static/img/3way-1.png" alt="not found" style="width: 230px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                            <input type="text" class="form-control" placeholder="Input tag(e.g.  e:2,6)" id="3way_intersection_1_tag" name="add_tag" style="width: 230px; margin: auto; position: absolute; bottom: 0%; left: 50%;">
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-3way-intersection-2" role="tabpanel" aria-labelledby="v-pills-3way-intersection-2-tab">
+                            <img src="/static/img/3way-2.png" alt="not found" style="width: 230px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                            <input type="text" class="form-control" placeholder="Input tag(e.g.  e:8,2)" id="3way_intersection_2_tag"  name="add_tag" style="width: 230px; margin: auto; position: absolute; bottom: 0%; left: 50%;">
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-3way-intersection-3" role="tabpanel" aria-labelledby="v-pills-3way-intersection-3-tab">
+                            <img src="/static/img/3way-3.png" alt="not found" style="width: 230px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                            <input type="text" class="form-control" placeholder="Input tag(e.g.  e:2,4)" id="3way_intersection_3_tag" name="add_tag" style="width: 230px; margin: auto; position: absolute; bottom: 0%; left: 50%;">
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-3way-straight" role="tabpanel" aria-labelledby="v-pills-3way-straight-tab">
+                            <img src="/static/img/straight-3.png" alt="not found" style="width: 180px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                            <input type="text" class="form-control"  placeholder="Input tag(e.g.  e:2,2)" id="3way_straight_tag" name="add_tag" style="width: 230px; margin: auto; position: absolute; bottom: 0%; left: 48%;">
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-4way-straight" role="tabpanel" aria-labelledby="v-pills-4way-straight-tab">
+                            <img src="/static/img/straight-4.png" alt="not found" style="width: 180px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                            <input type="text" class="form-control"  placeholder="Input tag(e.g.  e:2,2)" id="4way_straight_tag" name="add_tag" style="width: 230px; margin: auto; position: absolute; bottom: 0%; left: 48%;">
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-5way-straight" role="tabpanel" aria-labelledby="v-pills-5way-straight-tab">
+                            <img src="/static/img/straight-5.png" alt="not found" style="width: 250px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                            <input type="text" class="form-control"  placeholder="Input tag(e.g.  e:2,3)" id="5way_straight_tag" name="add_tag" style="width: 250px; margin: auto; position: absolute; bottom: 0%; left: 50%;">
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-Roundabout" role="tabpanel" aria-labelledby="v-pills-Roundabout-tab">
+                            <img src="/static/img/roundabout.png" alt="not found" style="width: 230px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                            <input type="text" class="form-control"  placeholder="Input tag(e.g.  e:4,6)" id="Roundabout_tag" name="add_tag" style="width: 230px; margin: auto; position: absolute; bottom: 0%; left: 50%;">
+                        </div>
+                    </div> -->
+                    <!-- 改成用選項 -->
+                    <!-- <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-4way-intersection" role="tabpanel" aria-labelledby="v-pills-4way-intersection-tab">
+                            <img src="/static/img/4-way.png" alt="not found" style="width: 230px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                            <button></button>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-3way-intersection-1" role="tabpanel" aria-labelledby="v-pills-3way-intersection-1-tab">
+                            <img src="/static/img/3way-1.png" alt="not found" style="width: 230px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-3way-intersection-2" role="tabpanel" aria-labelledby="v-pills-3way-intersection-2-tab">
+                            <img src="/static/img/3way-2.png" alt="not found" style="width: 230px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-3way-intersection-3" role="tabpanel" aria-labelledby="v-pills-3way-intersection-3-tab">
+                            <img src="/static/img/3way-3.png" alt="not found" style="width: 230px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-3way-straight" role="tabpanel" aria-labelledby="v-pills-3way-straight-tab">
+                            <img src="/static/img/straight-3.png" alt="not found" style="width: 180px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-4way-straight" role="tabpanel" aria-labelledby="v-pills-4way-straight-tab">
+                            <img src="/static/img/straight-4.png" alt="not found" style="width: 180px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-5way-straight" role="tabpanel" aria-labelledby="v-pills-5way-straight-tab">
+                            <img src="/static/img/straight-5.png" alt="not found" style="width: 250px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-Roundabout" role="tabpanel" aria-labelledby="v-pills-Roundabout-tab">
+                            <img src="/static/img/roundabout.png" alt="not found" style="width: 230px; height: 230px; position: absolute; top: 20%; left: 50%;">   
+                        </div>
+                    </div> -->
+                    
+                </div>
+            
+                <div style="flex: 1;"></div>
+                <!-- 這邊 chosen tags -->
+                <div style="flex: 2;  position: relative;border: 3px solid red; background: #ccc; border-radius: 5px;">
+                    <!-- 卡，這邊放 input tags 長相的提示 -->
+                    <h6>Current Targets</h6>
+                    <table class="table" style="font-size: 16px; rgba(51,51,51,0.5);">
+                        <thead>
+                            <tr>
+                                <th scope="col">object</th>
+                                <th scope="col">start</th>
+                                <th scope="col">end</th>
+                            </tr>
+                        </thead>
+                        <tbody id="current_tag">
+                            {% if search_input != undefine and search_input != [] %}
+                            {% for tag in search_input['tags'] %}
+                            <tr>
+                                <td>{{tag['object']}}</td>
+                                <td>{{tag['start']}}</td>
+                                <td>{{tag['end']}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <div style="flex: 1;"></div>
+
+                <form action="/search" method="post">
+                    <div>
+                        <!-- <botton id="search_btn" name="search_btn" type="submit">Search!</botton> -->
+                        <input id="search_btn" name="search_btn" type="submit" value="Submit!" class="form-control" >
+                    </div>
+                </form>
+            </div> <!-- end of flex-->
+            <!-- 下面有一點介紹 -->
+            <div>
+                <p> 'e': ego car; 'p': pedestrian;</p>
+                <p>'c': regular car or truck; 'b': bike or motor</p>
+            </div>
+
+        <br><br><br><br><br><br>
+        <!-- 下面放搜尋紀錄，想用讓他縮在旁邊需要時點開就好，但還弄不出來，11月以後在弄-->
+        <h4 style="width:250px; margin:0px auto;">Searching History</h4>
+        <br>
+        <div style="width:70%; margin:0px auto; right: 100px; ">
+            {% if search_historys != [] %}
+                {% for search_history in search_historys %}
+                <div class="card mb-3 row g-0" style="background: #ccc; border: 0px; width: 270px;">
+                    <p style="font-weight: bold; font-size: 16px;">#{{loop.index0+1}}#   road_type: {{search_history['road_type']}}</p>
+                    <table class="table" style="font-size: 16px; background-color: rgba(51,51,51,0.5); border-radius: 5px;" >
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">object</th>
+                                <th scope="col">start</th>
+                                <th scope="col">end</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tag in search_history['tags'] %}
+                            <tr>
+                                <th scope="row">{{loop.index0+1}}</th>
+                                <td>{{tag['object']}}</td>
+                                <td>{{tag['start']}}</td>
+                                <td>{{tag['end']}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p>You have no searching history.</p>
+            {% endif %}
+        </div>
+
+            {% endif %}
+            
+    <!------------------------------------------  search_result--------------------------------------------------------        -->
+            
+            {% if nav == 'search_result' %}
+                {% if latest_search_results != [] %} <!--如果有最後一次的搜尋紀錄的話就顯示-->
+                <section>
+                    <!-- 卡，這邊要加上一個側邊浮動標籤來顯示當前搜尋的 tags https://chyfun.com/blogtool-floatinglabels/ -->
+                    <div class="choose_chosen_video">
+                        <button>Add chosen <br> videos to cart</button>
+                    </div>
+                    <div class="choose_all_video">
+                        <button>Add all <br> videos to cart</button>
+                    </div>
+                    {% for latest_search_result in latest_search_results %}
+                    <div class="card mb-3 row g-0">
+                        <video class="card-img-top" controls>
+                            <source src="{{latest_search_result['variant_video_path']}}" type="video/mp4" />
+                            <p>Can't not play the video, please change to another browser</p>
+                        </video>
+                        <div class="card-body">
+                            <!-- <h5 class="card-title">Card title</h5> -->
+                            <p class="card-text" style="font-size:16px;">basic description: <br>{{latest_search_result['basic_labal']}}<br>variant: <br>{{latest_search_result['varient']}}</p>
+                        </div>
+                        <a href="#" class="btn btn-primary">Show detail</a>
+                    </div>
+                    {% endfor %}
+                </section>    
+                {% else %}
+                <p>You have no searching result.</p>
+                {% endif %}
+            {% endif %}
+            
+            <!-- 
+                cart
+            -->
+            {% if nav == 'cart' %}
+                {% if cart != [] %} <!--如果有最後一次的搜尋紀錄的話就顯示-->
+                <section>
+                    <!-- 卡，這邊要加上一個側邊浮動標籤來顯示當前搜尋的 tags https://chyfun.com/blogtool-floatinglabels/ -->
+                    <div class="clear_chosen_videos">
+                        <button>Clear chosen <br> videos</button>
+                    </div>
+                    <div class="clear_all_videos">
+                        <button>Clear all videos</button>
+                    </div>
+                    <div class="export">
+                        <button>Export</button>
+                    </div>
+                    {% for video in cart %}
+                    <div class="card mb-3 row g-0" style="max-width: 270px; max-height: 600px; display: inline-block; margin: 20px 30px;">
+                        <video class="card-img-top" controls>
+                            <source src="{{video['variant_video_path']}}" type="video/mp4" />
+                            <p>Can't not play the video, please change to another browser</p>
+                        </video>
+                        <div class="card-body">
+                            <p class="card-text" style="font-size:16px;">basic description: <br>{{video['basic_labal']}}<br>variant: <br>{{video['varient']}}</p>
+                        </div>
+                        <a href="#" class="btn btn-primary">Show detail</a>
+                    </div>
+                    {% endfor %}
+                </section>    
+                {% else %}
+                <p style="text-align: center; ">You have nothing in cart.</p>
+                {% endif %}
+            {% endif %}
+            
+            
+            <!-- 
+                setting
+            -->
+            {% if nav == 'setting' %}
+            <div>
+                我是設定
+            </div>
+            {% endif %}
+            
+        </div> <!-- end of all web contain, end of warpper-->
+
+        <footer>
+            Copyright &copy; 2022 HCIS Lab All Rights Reserved
+        </footer>
+    </body>
+</html>
